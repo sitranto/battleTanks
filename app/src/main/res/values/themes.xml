@@ -3,6 +3,9 @@
     <style name="Base.Theme.BattleTanks" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+        <!--<item name="android:windowFullScreen">true</item>-->
     </style>
 
     <style name="Theme.BattleTanks" parent="Base.Theme.BattleTanks" />
