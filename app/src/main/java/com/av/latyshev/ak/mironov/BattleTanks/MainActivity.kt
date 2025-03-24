@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KEYCODE_DPAD_UP -> move(binding.myTank, UP)
-            KEYCODE_DPAD_DOWN -> move(binding.myTank, DOWN)
-            KEYCODE_DPAD_LEFT -> move(binding.myTank, LEFT)
-            KEYCODE_DPAD_RIGHT -> move(binding.myTank, RIGHT)
+            KEYCODE_DPAD_UP -> elementsDrawer.move(binding.myTank, UP)
+            KEYCODE_DPAD_DOWN -> elementsDrawer.move(binding.myTank, DOWN)
+            KEYCODE_DPAD_LEFT -> elementsDrawer.move(binding.myTank, LEFT)
+            KEYCODE_DPAD_RIGHT -> elementsDrawer.move(binding.myTank, RIGHT)
         }
         return super.onKeyDown(keyCode, event)
     }
