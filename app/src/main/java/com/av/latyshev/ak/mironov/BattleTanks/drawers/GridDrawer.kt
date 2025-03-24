@@ -1,12 +1,12 @@
-package com.av.latyshev.ak.mironov.BattleTanks
+package com.av.latyshev.ak.mironov.BattleTanks.drawers
 
-import android.content.Context
 import android.graphics.Color
 import android.view.View
 import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
+import com.av.latyshev.ak.mironov.BattleTanks.binding
 
-class GridDrawer(private val context: Context) {
+class GridDrawer(private val context: FrameLayout) {
     private val allLines = mutableListOf<View>()
 
     fun drawGrid() {
@@ -25,7 +25,7 @@ class GridDrawer(private val context: Context) {
     private fun drawHorizontalLines(container: FrameLayout?) {
         var topMargin = 0
         while (topMargin <= container!!.height) {
-            val horizontalLine = View(context)
+            val horizontalLine = View(container.context)
             val layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, 1)
             topMargin += CELL_SIZE
             layoutParams.topMargin = topMargin
@@ -39,7 +39,7 @@ class GridDrawer(private val context: Context) {
     private fun drawVerticalLines(container: FrameLayout?) {
         var leftMargin = 0
         while (leftMargin <= container!!.width) {
-            val verticalLine = View(context)
+            val verticalLine = View(container.context)
             val layoutParams = FrameLayout.LayoutParams(1, FrameLayout.LayoutParams.MATCH_PARENT)
             leftMargin += CELL_SIZE
             layoutParams.leftMargin = leftMargin

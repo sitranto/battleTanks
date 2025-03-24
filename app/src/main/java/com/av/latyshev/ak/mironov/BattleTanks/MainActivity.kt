@@ -15,10 +15,15 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.core.view.marginLeft
 import androidx.core.view.marginTop
-import com.av.latyshev.ak.mironov.BattleTanks.Direction.DOWN
-import com.av.latyshev.ak.mironov.BattleTanks.Direction.LEFT
-import com.av.latyshev.ak.mironov.BattleTanks.Direction.RIGHT
-import com.av.latyshev.ak.mironov.BattleTanks.Direction.UP
+import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
+import com.av.latyshev.ak.mironov.BattleTanks.drawers.GridDrawer
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
+import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 
 const val CELL_SIZE = 50
 lateinit var binding: ActivityMainBinding
@@ -26,7 +31,11 @@ lateinit var binding: ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private var editMode = false
     private val gridDrawer by lazy {
-        GridDrawer(this)
+        GridDrawer(binding.container)
+    }
+
+    private val elementsDrawer by lazy {
+        ElementsDrawer(binding.container)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +44,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.title = "Menu"
+
+        binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }
+        binding.editorBrick.setOnClickListener { elementsDrawer.currentMaterial = Material.BRICK }
+        binding.editorConcrete.setOnClickListener {
+            elementsDrawer.currentMaterial = Material.CONCRETE
+        }
+        binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS }
+        binding.container.setOnTouchListener { _, event ->
+            elementsDrawer.drawView(Coordinate(event.y.toInt(), event.x.toInt()))
+            return@setOnTouchListener true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -54,44 +74,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KEYCODE_DPAD_UP -> move(UP)
-            KEYCODE_DPAD_DOWN -> move(DOWN)
-            KEYCODE_DPAD_LEFT -> move(LEFT)
-            KEYCODE_DPAD_RIGHT -> move(RIGHT)
+            KEYCODE_DPAD_UP -> move(binding.myTank, UP)
+            KEYCODE_DPAD_DOWN -> move(binding.myTank, DOWN)
+            KEYCODE_DPAD_LEFT -> move(binding.myTank, LEFT)
+            KEYCODE_DPAD_RIGHT -> move(binding.myTank, RIGHT)
         }
         return super.onKeyDown(keyCode, event)
-    }
-
-    private fun move(direction: Direction)
-    {
-        when (direction) {
-            UP -> {
-                binding.myTank.rotation = 0f
-                if (binding.myTank.marginTop > 0) {
-                    (binding.myTank.layoutParams as FrameLayout.LayoutParams).topMargin -= CELL_SIZE
-                }
-            }
-            DOWN -> {
-                binding.myTank.rotation = 180f
-                if (binding.myTank.marginTop + binding.myTank.height < binding.container.height / CELL_SIZE * CELL_SIZE) {
-                    (binding.myTank.layoutParams as FrameLayout.LayoutParams).topMargin += CELL_SIZE
-                }
-            }
-            LEFT -> {
-                binding.myTank.rotation = 270f
-                if (binding.myTank.marginLeft > 0) {
-                    (binding.myTank.layoutParams as FrameLayout.LayoutParams).leftMargin -= CELL_SIZE
-                }
-            }
-            RIGHT -> {
-                binding.myTank.rotation = 90f
-                if (binding.myTank.marginLeft + binding.myTank.width < binding.container.width / CELL_SIZE * CELL_SIZE) {
-                    (binding.myTank.layoutParams as FrameLayout.LayoutParams).leftMargin += CELL_SIZE
-                }
-            }
-        }
-        binding.container.removeView(binding.myTank)
-        binding.container.addView(binding.myTank)
     }
 
     private fun switchEditMode() {
