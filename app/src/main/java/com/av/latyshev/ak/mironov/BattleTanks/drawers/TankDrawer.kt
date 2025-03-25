@@ -11,6 +11,7 @@ import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 import com.av.latyshev.ak.mironov.BattleTanks.models.Element
+import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
 
 class TankDrawer(val container: FrameLayout) {
     var currentDirection = UP
@@ -36,9 +37,8 @@ class TankDrawer(val container: FrameLayout) {
         }
 
         val nextCoordinate = Coordinate(layoutParams.topMargin, layoutParams.leftMargin)
-        if (checkTankCanMoveThroughBorder(
-                nextCoordinate,
-                myTank
+        if (myTank.checkViewCanMoveThroughBorder(
+                nextCoordinate
             ) && checkTankCanMoveThroughMaterial(nextCoordinate, elementsOnContainer)
         ) {
             binding.container.removeView(myTank)
@@ -62,7 +62,7 @@ class TankDrawer(val container: FrameLayout) {
         return true
     }
 
-    private fun checkTankCanMoveThroughBorder(coordinate: Coordinate, myTank: View): Boolean {
+    /*private fun checkTankCanMoveThroughBorder(coordinate: Coordinate, myTank: View): Boolean {
         if(coordinate.top >= 0 &&
             coordinate.top + myTank.height < binding.container.height &&
             coordinate.left >= 0 &&
@@ -71,7 +71,7 @@ class TankDrawer(val container: FrameLayout) {
             return true
         }
         return false
-    }
+    }*/
 
     private fun getTankCoordinates(topLeftCoordinate: Coordinate): List<Coordinate> {
         val coordinateList = mutableListOf<Coordinate>()
