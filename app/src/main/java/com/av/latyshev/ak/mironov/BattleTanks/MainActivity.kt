@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS }
         binding.container.setOnTouchListener { _, event ->
-            elementsDrawer.onTouchContainer(event.y, event.x)
+            elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
         }
     }
