@@ -4,20 +4,16 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.R
-import com.av.latyshev.ak.mironov.BattleTanks.binding
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 import com.av.latyshev.ak.mironov.BattleTanks.models.Element
 import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
+
+const val CELLS_SIMPLE_ELEMENT = 1
+const val CELLS_EAGLE_WIDTH = 4
+const val CELLS_EAGLE_HEIGHT = 3
 
 class ElementsDrawer(val container: FrameLayout) {
     var currentMaterial = Material.EMPTY
@@ -45,6 +41,16 @@ class ElementsDrawer(val container: FrameLayout) {
         }
     }
 
+    fun drawElementsList(elements: List<Element>?) {
+        if (elements == null) {
+            return
+        }
+        for (element in elements) {
+            currentMaterial = element.material
+            selectMaterial((element.coordinate))
+        }
+    }
+
     private fun replaceView(coordinate: Coordinate) {
         eraseView(coordinate)
         selectMaterial(coordinate)
@@ -67,7 +73,7 @@ class ElementsDrawer(val container: FrameLayout) {
             Material.GRASS -> drawView(R.drawable.grass, coordinate)
             Material.EAGLE -> {
                 removeExistingEagle()
-                drawView(R.drawable.eagle, coordinate)
+                drawView(R.drawable.eagle, coordinate, CELLS_EAGLE_WIDTH, CELLS_EAGLE_HEIGHT)
             }
         }
     }
@@ -82,8 +88,8 @@ class ElementsDrawer(val container: FrameLayout) {
     private  fun drawView(
         @DrawableRes image: Int,
         coordinate: Coordinate,
-        width: Int = 1,
-        height: Int = 1
+        width: Int = CELLS_SIMPLE_ELEMENT,
+        height: Int = CELLS_SIMPLE_ELEMENT
     ) {
         val view = ImageView(container.context)
         val layoutParams = FrameLayout.LayoutParams(width * CELL_SIZE, height * CELL_SIZE)

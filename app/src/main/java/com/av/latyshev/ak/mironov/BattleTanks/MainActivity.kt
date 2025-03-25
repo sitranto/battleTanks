@@ -1,5 +1,6 @@
 package com.av.latyshev.ak.mironov.BattleTanks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityMainBinding
@@ -44,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         BulletDrawer(binding.container)
     }
 
+    private val levelStorage by lazy {
+        LevelStorage(this)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
         }
+        elementsDrawer.drawElementsList(levelStorage.loadLevel())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -75,6 +82,12 @@ class MainActivity : AppCompatActivity() {
                 switchEditMode()
                 return true
             }
+
+            R.id.menu_save -> {
+                levelStorage.saveLevel(elementsDrawer.elementsOnContainer)
+                return true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
