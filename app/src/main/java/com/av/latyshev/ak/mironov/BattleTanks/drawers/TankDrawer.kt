@@ -12,6 +12,7 @@ import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 import com.av.latyshev.ak.mironov.BattleTanks.models.Element
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
+import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
 
 class TankDrawer(val container: FrameLayout) {
     var currentDirection = UP
@@ -86,10 +87,4 @@ class TankDrawer(val container: FrameLayout) {
         )
         return coordinateList
     }
-
-    private fun getElementByCoordinates(
-        coordinate: Coordinate,
-        elementsOnContainer: List<Element>
-    ) =
-        elementsOnContainer.firstOrNull { it.coordinate == coordinate }
 }
