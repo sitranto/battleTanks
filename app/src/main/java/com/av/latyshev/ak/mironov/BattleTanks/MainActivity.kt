@@ -64,6 +64,12 @@ class MainActivity : AppCompatActivity() {
         }
         binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS }
         binding.editorEagle.setOnClickListener{ elementsDrawer.currentMaterial = Material.EAGLE }
+        binding.editorEnemyRespawn.setOnClickListener {
+            elementsDrawer.currentMaterial = Material.ENEMY_TANK_RESPAWN
+        }
+        binding.editorPlayerRespawn.setOnClickListener {
+            elementsDrawer.currentMaterial = Material.PLAYER_TANK_RESPAWN
+        }
         binding.container.setOnTouchListener { _, event ->
             elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
