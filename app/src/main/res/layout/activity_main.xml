@@ -12,12 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/myTank"
-            android:layout_width="@dimen/cell_size"
-            android:layout_height="@dimen/cell_size"
-            app:srcCompat="@drawable/tank" />
-
     </FrameLayout>
 
     <LinearLayout

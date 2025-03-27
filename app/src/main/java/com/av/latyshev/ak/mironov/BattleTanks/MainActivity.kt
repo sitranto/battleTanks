@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable.ArrowDirection
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
@@ -34,15 +35,45 @@ lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var editMode = false
-    private val playerTank = Tank(
-        Element(
-            R.id.myTank,
-            Material.PLAYER_TANK,
-            Coordinate(0, 0),
-            Material.PLAYER_TANK.width,
-            Material.PLAYER_TANK.height,
-        ), UP
+
+    private lateinit var playerTank: Tank
+    private lateinit var eagle: Element
+
+    private fun createTank(elementWidth: Int, elementHeight: Int): Tank {
+        playerTank = Tank(
+            Element(
+                material = Material.PLAYER_TANK,
+                coordinate = getPlayerTankCoordinate(elementWidth, elementHeight)
+            ), UP
+        )
+        return playerTank
+    }
+
+    private fun createEagle(elementWidth: Int, elementHeight: Int): Element {
+        eagle = Element(
+            material = Material.EAGLE,
+            coordinate = getEagleCoordinate(elementWidth, elementHeight)
+        )
+        return eagle
+    }
+
+    private fun getPlayerTankCoordinate(width: Int, height: Int) = Coordinate(
+        top = (height - height % 2)
+                - (height - height % 2) % CELL_SIZE
+                - Material.PLAYER_TANK.height * CELL_SIZE,
+        left = (width - width % (2 * CELL_SIZE)) / 2
+                - Material.EAGLE.width / 2 * CELL_SIZE
+                - Material.PLAYER_TANK.width * CELL_SIZE
     )
+
+    private fun getEagleCoordinate(width: Int, height: Int) = Coordinate(
+        top = (height - height % 2)
+                - (height - height % 2) % CELL_SIZE
+                - Material.EAGLE.height * CELL_SIZE,
+        left = (width - width % (2 * CELL_SIZE)) / 2
+                - Material.EAGLE.width / 2 * CELL_SIZE
+    )
+
     private val gridDrawer by lazy {
         GridDrawer(binding.container)
     }
@@ -63,7 +94,6 @@ class MainActivity : AppCompatActivity() {
         EnemyDrawer(binding.container, elementsDrawer.elementsOnContainer)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -83,8 +113,25 @@ class MainActivity : AppCompatActivity() {
             return@setOnTouchListener true
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
+        elementsDrawer.drawElementsList(listOf(playerTank.element, eagle))
         hideSettings()
-        elementsDrawer.elementsOnContainer.add(playerTank.element)
+    }
+
+    private fun countWidthHeight() {
+        val frameLayout = binding.container
+        frameLayout.viewTreeObserver
+            .addOnGlobalLayoutListener (object : OnGlobalLayoutListener{
+                override fun onGlobalLayout() {
+                    frameLayout.viewTreeObserver.removeOnGlobalLayoutListener (this)
+                    val elementWidth = frameLayout.width
+                    val elementHeight = frameLayout.height
+
+                    playerTank = createTank(elementWidth, elementHeight)
+                    eagle = createEagle(elementWidth, elementHeight)
+
+                    elementsDrawer.drawElementsList(listOf(playerTank.element, eagle))
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -128,7 +175,7 @@ class MainActivity : AppCompatActivity() {
             KEYCODE_DPAD_LEFT -> move(LEFT)
             KEYCODE_DPAD_RIGHT -> move(RIGHT)
             KEYCODE_SPACE -> bulletDrawer.makeBulletMove(
-                binding.myTank,
+                binding.container.findViewById(playerTank.element.viewId),
                 playerTank.direction,
                 elementsDrawer.elementsOnContainer
             )
