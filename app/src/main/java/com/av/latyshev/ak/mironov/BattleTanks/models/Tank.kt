@@ -4,12 +4,14 @@ import android.view.View
 import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.binding
+import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
+import com.av.latyshev.ak.mironov.BattleTanks.utils.checkIfChanceBiggerThanRandom
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
 import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
 import com.av.latyshev.ak.mironov.BattleTanks.utils.runOnUiThread
@@ -17,7 +19,8 @@ import kotlin.random.Random
 
 class Tank(
      val element: Element,
-     var direction: Direction
+     var direction: Direction,
+    val bulletDrawer: BulletDrawer
 ) {
     fun move(
         direction: Direction,
@@ -35,10 +38,20 @@ class Tank(
         ) {
             emulateViewMoving(container, view)
             element.coordinate = nextCoordinate
+            generateRandomDirectionForEnemyTank()
         } else {
             element.coordinate = currentCoordinate
             (view.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
             (view.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
+            changeDirectionForEnemyTank()
+        }
+    }
+
+    private fun generateRandomDirectionForEnemyTank() {
+        if (element.material != Material.ENEMY_TANK) {
+            return
+        }
+        if (checkIfChanceBiggerThanRandom(10)) {
             changeDirectionForEnemyTank()
         }
     }
@@ -88,8 +101,11 @@ class Tank(
         coordinate: Coordinate,
         elementsOnContainer: List<Element>
     ): Boolean {
-        for (anyCoordinate in getTankCoordinates(coordinate)) {
-            val element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
+        for (anyCoordinate in getElementByCoordinates(coordinate)) {
+            var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
+            if(element == null) {
+                element = getElementByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
+            }
             if (element != null && !element.material.tankCanGoThrough) {
                 if(this == element) {
                     continue
@@ -111,7 +127,7 @@ class Tank(
         return false
     }*/
 
-    private fun getTankCoordinates(topLeftCoordinate: Coordinate): List<Coordinate> {
+    private fun getElementByCoordinates(topLeftCoordinate: Coordinate): List<Coordinate> {
         val coordinateList = mutableListOf<Coordinate>()
         coordinateList.add(topLeftCoordinate)
         coordinateList.add(Coordinate(topLeftCoordinate.top + CELL_SIZE, topLeftCoordinate.left))
