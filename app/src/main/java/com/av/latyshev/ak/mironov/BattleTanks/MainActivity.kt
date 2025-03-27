@@ -14,32 +14,41 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable.ArrowDirection
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.GridDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.TankDrawer
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
+import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
+import com.av.latyshev.ak.mironov.BattleTanks.models.Element
+import com.av.latyshev.ak.mironov.BattleTanks.models.Tank
 
 const val CELL_SIZE = 50
 lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var editMode = false
+    private val playerTank = Tank(
+        Element(
+            R.id.myTank,
+            Material.PLAYER_TANK,
+            Coordinate(0, 0),
+            Material.PLAYER_TANK.width,
+            Material.PLAYER_TANK.height,
+        ), UP
+    )
     private val gridDrawer by lazy {
         GridDrawer(binding.container)
     }
 
     private val elementsDrawer by lazy {
         ElementsDrawer(binding.container)
-    }
-
-    private val tankDrawer by lazy {
-        TankDrawer(binding.container)
     }
 
     private val bulletDrawer by lazy {
@@ -75,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
         hideSettings()
+        elementsDrawer.elementsOnContainer.add(playerTank.element)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -112,17 +122,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KEYCODE_DPAD_UP -> tankDrawer.move(binding.myTank, UP, elementsDrawer.elementsOnContainer)
-            KEYCODE_DPAD_DOWN -> tankDrawer.move(binding.myTank, DOWN, elementsDrawer.elementsOnContainer)
-            KEYCODE_DPAD_LEFT -> tankDrawer.move(binding.myTank, LEFT, elementsDrawer.elementsOnContainer)
-            KEYCODE_DPAD_RIGHT -> tankDrawer.move(binding.myTank, RIGHT, elementsDrawer.elementsOnContainer)
+           KEYCODE_DPAD_UP -> move(UP)
+            KEYCODE_DPAD_DOWN -> move(DOWN)
+            KEYCODE_DPAD_LEFT -> move(LEFT)
+            KEYCODE_DPAD_RIGHT -> move(RIGHT)
             KEYCODE_SPACE -> bulletDrawer.makeBulletMove(
                 binding.myTank,
-                tankDrawer.currentDirection,
+                playerTank.direction,
                 elementsDrawer.elementsOnContainer
             )
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun move(direction: Direction) {
+        playerTank.move(direction, binding.container, elementsDrawer.elementsOnContainer)
     }
 
     private fun switchEditMode() {
