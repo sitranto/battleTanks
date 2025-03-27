@@ -2,4 +2,5 @@
     <string name="app_name">BattleTanks</string>
     <string name="settings">Settings</string>
     <string name="save">Save</string>
+    <string name="play">Play</string>
 </resources>
