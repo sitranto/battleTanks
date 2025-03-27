@@ -24,7 +24,7 @@ fun getElementByCoordinates(
     coordinate: Coordinate,
     elementsOnContainer: List<Element>
 ): Element? {
-    for (element in elementsOnContainer) {
+    for (element in elementsOnContainer.toList()) {
         for (height in 0  until   element.height) {
             for (wigth in 0 until  element.width) {
                 val searchingCoordinate = Coordinate(

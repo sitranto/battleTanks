@@ -52,7 +52,7 @@ class BulletDrawer(
     }
 
     private fun interactWithAllBulleys() {
-        allBullets.forEach { bullet ->
+        allBullets.toList().forEach { bullet ->
             val view = bullet.view
             if(bullet.canMoveFuther) {
                 when (bullet.direction) {
@@ -69,7 +69,12 @@ class BulletDrawer(
             } else {
                 stopBullet(bullet)
             }
+            bullet.stopIntersectingBullets()
         }
+        removeInconsistenBullets()
+    }
+
+    private fun removeInconsistenBullets() {
         val removingList = allBullets.filter { !it.canMoveFuther }
         removingList.forEach {
             stopBullet(it)
@@ -78,6 +83,21 @@ class BulletDrawer(
             }
         }
         allBullets.removeAll(removingList)
+    }
+
+    private fun Bullet.stopIntersectingBullets() {
+        val bulletCoordinate = this.view.getViewCoordinate()
+        for (bulletInList in allBullets) {
+            val coordinateList = bulletInList.view.getViewCoordinate()
+            if(this == bulletInList) {
+                continue
+            }
+            if(coordinateList == bulletCoordinate) {
+                stopBullet(this)
+                stopBullet(bulletInList)
+                return
+            }
+        }
     }
 
     /*private var canBulletGoFuther = true
