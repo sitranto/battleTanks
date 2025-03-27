@@ -16,6 +16,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
+import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.GridDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.TankDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         LevelStorage(this)
     }
 
+    private val enemyDrawer by lazy {
+        EnemyDrawer(binding.container)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.editorGrass.setOnClickListener{ elementsDrawer.currentMaterial = Material.GRASS }
         binding.editorEagle.setOnClickListener{ elementsDrawer.currentMaterial = Material.EAGLE }
-        binding.editorEnemyRespawn.setOnClickListener {
-            elementsDrawer.currentMaterial = Material.ENEMY_TANK_RESPAWN
-        }
-        binding.editorPlayerRespawn.setOnClickListener {
-            elementsDrawer.currentMaterial = Material.PLAYER_TANK_RESPAWN
-        }
         binding.container.setOnTouchListener { _, event ->
             elementsDrawer.onTouchContainer(event.x, event.y)
             return@setOnTouchListener true
@@ -126,12 +125,10 @@ class MainActivity : AppCompatActivity() {
     private fun showSettings() {
         gridDrawer.drawGrid()
         binding.materialsContainer.visibility = VISIBLE
-        elementsDrawer.changeElementsVisibility(true)
     }
 
     private fun hideSettings() {
         gridDrawer.removeGrid()
         binding.materialsContainer.visibility = INVISIBLE
-        elementsDrawer.changeElementsVisibility(false)
     }
 }
