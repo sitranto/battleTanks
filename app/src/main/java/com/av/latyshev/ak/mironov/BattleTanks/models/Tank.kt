@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.binding
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
+import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
@@ -14,21 +15,22 @@ import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkIfChanceBiggerThanRandom
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
 import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
+import com.av.latyshev.ak.mironov.BattleTanks.utils.getViewCoordinate
 import com.av.latyshev.ak.mironov.BattleTanks.utils.runOnUiThread
 import kotlin.random.Random
 
 class Tank(
      val element: Element,
      var direction: Direction,
-    val bulletDrawer: BulletDrawer
-) {
+    private val enemyDrawer: EnemyDrawer
+    ) {
     fun move(
         direction: Direction,
         container: FrameLayout,
         elementsOnContainer: List<Element>
     ) {
         val view = container.findViewById<View>(element.viewId)?: return
-        val currentCoordinate = getTankCurrentCoordinate(view)
+        val currentCoordinate = view.getViewCoordinate()
         this.direction = direction
         view.rotation = direction.rotation
         val nextCoordinate = getTankNextCoordinate(view)
@@ -70,13 +72,6 @@ class Tank(
         }
     }
 
-    private fun getTankCurrentCoordinate(tank: View): Coordinate {
-        return Coordinate(
-            (tank.layoutParams as FrameLayout.LayoutParams).topMargin,
-            (tank.layoutParams as FrameLayout.LayoutParams).leftMargin
-        )
-    }
-
     private fun getTankNextCoordinate(view: View): Coordinate {
         val layoutParams = view.layoutParams as FrameLayout.LayoutParams
         when (direction) {
@@ -104,7 +99,7 @@ class Tank(
         for (anyCoordinate in getElementByCoordinates(coordinate)) {
             var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
             if(element == null) {
-                element = getElementByCoordinates(anyCoordinate, bulletDrawer.enemyDrawer.tanks)
+                element = getElementByCoordinates(anyCoordinate, enemyDrawer.tanks)
             }
             if (element != null && !element.material.tankCanGoThrough) {
                 if(this == element) {
