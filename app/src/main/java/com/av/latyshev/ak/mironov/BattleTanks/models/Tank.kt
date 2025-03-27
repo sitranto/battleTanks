@@ -9,8 +9,11 @@ import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
+import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
 import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
+import com.av.latyshev.ak.mironov.BattleTanks.utils.runOnUiThread
+import kotlin.random.Random
 
 class Tank(
      val element: Element,
@@ -30,13 +33,27 @@ class Tank(
         if (view.checkViewCanMoveThroughBorder(nextCoordinate)
             && element.checkTankCanMoveThroughMaterial(nextCoordinate, elementsOnContainer)
         ) {
-            binding.container.removeView(view)
-            binding.container.addView(view, 0)
+            emulateViewMoving(container, view)
             element.coordinate = nextCoordinate
         } else {
             element.coordinate = currentCoordinate
             (view.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
             (view.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
+            changeDirectionForEnemyTank()
+        }
+    }
+
+    private fun changeDirectionForEnemyTank() {
+        if(element.material == Material.ENEMY_TANK) {
+            val randomDirection = Direction.entries[Random.nextInt(Direction.entries.size)]
+            this.direction = randomDirection
+        }
+    }
+
+    private fun emulateViewMoving(container: FrameLayout, view: View) {
+        container.runOnUiThread {
+            binding.container.removeView(view)
+            binding.container.addView(view, 0)
         }
     }
 

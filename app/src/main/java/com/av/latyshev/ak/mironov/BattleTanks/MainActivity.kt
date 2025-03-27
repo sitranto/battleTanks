@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val enemyDrawer by lazy {
-        EnemyDrawer(binding.container)
+        EnemyDrawer(binding.container, elementsDrawer.elementsOnContainer)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -117,7 +117,8 @@ class MainActivity : AppCompatActivity() {
         if(editMode) {
             return
         }
-        enemyDrawer.startEnemyDrawing(elementsDrawer.elementsOnContainer)
+        enemyDrawer.startEnemyCreation()
+        enemyDrawer.moveEnemyTanks()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
