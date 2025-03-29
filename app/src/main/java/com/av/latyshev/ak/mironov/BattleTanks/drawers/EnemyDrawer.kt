@@ -3,6 +3,7 @@ package com.av.latyshev.ak.mironov.BattleTanks.drawers
 import android.util.Printer
 import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
+import com.av.latyshev.ak.mironov.BattleTanks.GameCore.isPlaying
 import com.av.latyshev.ak.mironov.BattleTanks.binding
 import com.av.latyshev.ak.mironov.BattleTanks.enums.CELLS_TANKS_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
@@ -24,6 +25,7 @@ class EnemyDrawer(
     private var currentCoordinate: Coordinate
     val tanks = mutableListOf<Tank>()
     lateinit var bulletDrawer: BulletDrawer
+    private var gameStarted = false
 
     init {
         respawnList = getRespawnList()
@@ -68,16 +70,19 @@ class EnemyDrawer(
         tanks.add(enemyTank)
     }
 
-    fun moveEnemyTanks() {
+    private fun moveEnemyTanks() {
         Thread(Runnable {
             while (true) {
+                if (!isPlaying()) {
+                    continue
+                }
                 goThroughAllTanks()
                 Thread.sleep(400)
                 }
         }).start()
     }
 
-private fun goThroughAllTanks() {
+    private fun goThroughAllTanks() {
         tanks.toList().forEach {
             it.move(it.direction, container, elements)
             if(checkIfChanceBiggerThanRandom(10)) {
@@ -87,13 +92,21 @@ private fun goThroughAllTanks() {
     }
 
     fun startEnemyCreation() {
+        if (gameStarted) {
+            return
+        }
+        gameStarted = true
         Thread(Runnable {
             while (enemyAmount < MAX_ENEMY_AMOUNT) {
+                if (!isPlaying()) {
+                    continue
+                }
                 drawEnemy()
                 enemyAmount++
                 Thread.sleep( 3000)
             }
         }).start()
+        moveEnemyTanks()
     }
 
     fun removeTank(tankIndex: Int) {

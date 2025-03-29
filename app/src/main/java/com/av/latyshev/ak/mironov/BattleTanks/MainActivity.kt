@@ -1,6 +1,7 @@
 package com.av.latyshev.ak.mironov.BattleTanks
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityMainBinding
@@ -16,6 +17,8 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable.ArrowDirection
+import androidx.core.content.ContextCompat
+import com.av.latyshev.ak.mironov.BattleTanks.GameCore.isPlaying
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
@@ -35,6 +38,7 @@ lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var editMode = false
+    private lateinit var item: MenuItem
 
     private lateinit var playerTank: Tank
     private lateinit var eagle: Element
@@ -120,7 +124,6 @@ class MainActivity : AppCompatActivity() {
             return@setOnTouchListener true
         }
         elementsDrawer.drawElementsList(levelStorage.loadLevel())
-        elementsDrawer.drawElementsList(listOf(playerTank.element, eagle))
         hideSettings()
         countWidthHeight()
     }
@@ -145,6 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.settings, menu)
+        item = menu!!.findItem(R.id.menu_play)
         return true
     }
 
@@ -161,7 +165,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.menu_play -> {
-                startTheGame()
+                if(editMode) {
+                    return true
+                }
+                GameCore.startOrPauseTheGame()
+                if (isPlaying()) {
+                    startTheGame()
+                } else {
+                    pauseTheGame()
+                }
                 true
             }
 
@@ -169,15 +181,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun pauseTheGame() {
+        item.icon = ContextCompat.getDrawable(this, R.drawable.ic_play)
+        GameCore.pauseTheGame()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pauseTheGame()
+    }
+
     private fun startTheGame() {
-        if(editMode) {
-            return
-        }
+        item.icon = ContextCompat.getDrawable(this, R.drawable.ic_pause)
         enemyDrawer.startEnemyCreation()
-        enemyDrawer.moveEnemyTanks()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (!isPlaying()) {
+            return super.onKeyDown(keyCode, event)
+        }
         when (keyCode) {
            KEYCODE_DPAD_UP -> move(UP)
             KEYCODE_DPAD_DOWN -> move(DOWN)

@@ -99,7 +99,7 @@ class Tank(
         for (anyCoordinate in getElementByCoordinates(coordinate)) {
             var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
             if(element == null) {
-                element = getElementByCoordinates(anyCoordinate, enemyDrawer.tanks)
+                //element = getElementByCoordinates(anyCoordinate, enemyDrawer.tanks)
             }
             if (element != null && !element.material.tankCanGoThrough) {
                 if(this == element) {
