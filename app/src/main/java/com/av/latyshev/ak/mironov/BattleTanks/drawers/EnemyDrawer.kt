@@ -3,7 +3,7 @@ package com.av.latyshev.ak.mironov.BattleTanks.drawers
 import android.util.Printer
 import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.GameCore.isPlaying
+import com.av.latyshev.ak.mironov.BattleTanks.GameCore
 import com.av.latyshev.ak.mironov.BattleTanks.SoundManager
 import com.av.latyshev.ak.mironov.BattleTanks.binding
 import com.av.latyshev.ak.mironov.BattleTanks.enums.CELLS_TANKS_SIZE
@@ -19,7 +19,9 @@ private const val MAX_ENEMY_AMOUNT = 20
 
 class EnemyDrawer(
     private val container: FrameLayout,
-    private val elements: MutableList<Element>
+    private val elements: MutableList<Element>,
+    private val soundManager: SoundManager,
+    private val gameCore: GameCore
 ) {
     private val respawnList: List<Coordinate>
     private var enemyAmount = 0
@@ -74,7 +76,7 @@ class EnemyDrawer(
     private fun moveEnemyTanks() {
         Thread(Runnable {
             while (true) {
-                if (!isPlaying()) {
+                if (!gameCore.isPlaying()) {
                     continue
                 }
                 goThroughAllTanks()
@@ -85,9 +87,9 @@ class EnemyDrawer(
 
     private fun goThroughAllTanks() {
         if (tanks.isNotEmpty()) {
-            SoundManager.tankMove()
+            soundManager.tankMove()
         } else {
-            SoundManager.tankStop()
+            soundManager.tankStop()
         }
         tanks.toList().forEach {
             it.move(it.direction, container, elements)
@@ -104,7 +106,7 @@ class EnemyDrawer(
         gameStarted = true
         Thread(Runnable {
             while (enemyAmount < MAX_ENEMY_AMOUNT) {
-                if (!isPlaying()) {
+                if (!gameCore.isPlaying()) {
                     continue
                 }
                 drawEnemy()

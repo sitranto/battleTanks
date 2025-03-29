@@ -26,10 +26,10 @@ fun getElementByCoordinates(
 ): Element? {
     for (element in elementsOnContainer.toList()) {
         for (height in 0  until   element.height) {
-            for (wigth in 0 until  element.width) {
+            for (width in 0 until  element.width) {
                 val searchingCoordinate = Coordinate(
                     top = element.coordinate.top + height * CELL_SIZE,
-                    left = element.coordinate.left + wigth * CELL_SIZE
+                    left = element.coordinate.left + width * CELL_SIZE
                 )
                 if (coordinate == searchingCoordinate) {
                     return element

@@ -4,13 +4,8 @@ import android.view.View
 import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.binding
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkIfChanceBiggerThanRandom
 import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
@@ -22,7 +17,7 @@ import kotlin.random.Random
 class Tank(
      val element: Element,
      var direction: Direction,
-    private val enemyDrawer: EnemyDrawer
+     private val enemyDrawer: EnemyDrawer
     ) {
     fun move(
         direction: Direction,
@@ -99,7 +94,7 @@ class Tank(
         for (anyCoordinate in getElementByCoordinates(coordinate)) {
             var element = getElementByCoordinates(anyCoordinate, elementsOnContainer)
             if(element == null) {
-                //element = getElementByCoordinates(anyCoordinate, enemyDrawer.tanks)
+               // element = getElementByCoordinates(anyCoordinate, enemyDrawer.tanks)
             }
             if (element != null && !element.material.tankCanGoThrough) {
                 if(this == element) {

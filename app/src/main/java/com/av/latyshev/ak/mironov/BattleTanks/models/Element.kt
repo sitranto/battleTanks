@@ -3,7 +3,7 @@ package com.av.latyshev.ak.mironov.BattleTanks.models
 import android.view.View
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 
-data class Element constructor(
+data class Element(
     val viewId: Int = View.generateViewId(),
     val material: Material,
     var coordinate: Coordinate,
