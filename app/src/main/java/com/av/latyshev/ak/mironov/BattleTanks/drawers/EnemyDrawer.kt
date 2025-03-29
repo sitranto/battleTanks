@@ -4,6 +4,7 @@ import android.util.Printer
 import android.widget.FrameLayout
 import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.GameCore.isPlaying
+import com.av.latyshev.ak.mironov.BattleTanks.SoundManager
 import com.av.latyshev.ak.mironov.BattleTanks.binding
 import com.av.latyshev.ak.mironov.BattleTanks.enums.CELLS_TANKS_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
@@ -83,6 +84,11 @@ class EnemyDrawer(
     }
 
     private fun goThroughAllTanks() {
+        if (tanks.isNotEmpty()) {
+            SoundManager.tankMove()
+        } else {
+            SoundManager.tankStop()
+        }
         tanks.toList().forEach {
             it.move(it.direction, container, elements)
             if(checkIfChanceBiggerThanRandom(10)) {
@@ -110,7 +116,6 @@ class EnemyDrawer(
     }
 
     fun removeTank(tankIndex: Int) {
-        if (tankIndex < 0) return
         tanks.removeAt(tankIndex)
     }
 }

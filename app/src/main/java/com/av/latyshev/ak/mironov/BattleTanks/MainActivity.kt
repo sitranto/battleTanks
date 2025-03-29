@@ -1,7 +1,5 @@
 package com.av.latyshev.ak.mironov.BattleTanks
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityMainBinding
@@ -16,7 +14,6 @@ import android.view.MenuItem
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import androidx.appcompat.graphics.drawable.DrawerArrowDrawable.ArrowDirection
 import androidx.core.content.ContextCompat
 import com.av.latyshev.ak.mironov.BattleTanks.GameCore.isPlaying
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
@@ -108,6 +105,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        SoundManager.context = this
+
         supportActionBar?.title = "Menu"
 
         binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }
@@ -189,11 +188,13 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         pauseTheGame()
+        SoundManager.pauseSounds()
     }
 
     private fun startTheGame() {
         item.icon = ContextCompat.getDrawable(this, R.drawable.ic_pause)
         enemyDrawer.startEnemyCreation()
+        SoundManager.playIntroMusic()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -201,17 +202,32 @@ class MainActivity : AppCompatActivity() {
             return super.onKeyDown(keyCode, event)
         }
         when (keyCode) {
-           KEYCODE_DPAD_UP -> move(UP)
-            KEYCODE_DPAD_DOWN -> move(DOWN)
-            KEYCODE_DPAD_LEFT -> move(LEFT)
-            KEYCODE_DPAD_RIGHT -> move(RIGHT)
+           KEYCODE_DPAD_UP -> onButtonPressed(UP)
+            KEYCODE_DPAD_DOWN -> onButtonPressed(DOWN)
+            KEYCODE_DPAD_LEFT -> onButtonPressed(LEFT)
+            KEYCODE_DPAD_RIGHT -> onButtonPressed(RIGHT)
             KEYCODE_SPACE -> bulletDrawer.addNewBulletForTank(playerTank)
         }
         return super.onKeyDown(keyCode, event)
     }
 
-    private fun move(direction: Direction) {
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KEYCODE_DPAD_UP, KEYCODE_DPAD_LEFT,
+            KEYCODE_DPAD_DOWN, KEYCODE_DPAD_RIGHT -> onButtonReleased()
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    private fun onButtonPressed(direction: Direction) {
+        SoundManager.tankMove()
         playerTank.move(direction, binding.container, elementsDrawer.elementsOnContainer)
+    }
+
+    fun onButtonReleased() {
+        if (enemyDrawer.tanks.isEmpty()) {
+            SoundManager.tankStop()
+        }
     }
 
     private fun switchEditMode() {
