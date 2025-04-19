@@ -28,6 +28,7 @@ import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 import com.av.latyshev.ak.mironov.BattleTanks.models.Element
 import com.av.latyshev.ak.mironov.BattleTanks.models.Tank
+import com.av.latyshev.ak.mironov.BattleTanks.sounds.MainSoundPlayer
 
 const val CELL_SIZE = 50
 lateinit var binding: ActivityMainBinding
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val soundManager by lazy {
-        SoundManager(this)
+        MainSoundPlayer(this)
     }
 
     private val gridDrawer by lazy {
@@ -113,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        soundManager.loadSounds()
         supportActionBar?.title = "Menu"
 
         binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }

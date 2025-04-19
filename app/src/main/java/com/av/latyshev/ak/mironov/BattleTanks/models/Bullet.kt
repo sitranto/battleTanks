@@ -7,7 +7,7 @@ class Bullet(
     val view: View,
     val direction: Direction,
     val tank: Tank,
-    var canMoveFuther: Boolean = true
+    var canMoveFurther: Boolean = true
 ) {
 
 }
