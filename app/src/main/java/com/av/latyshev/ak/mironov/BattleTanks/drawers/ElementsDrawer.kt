@@ -1,10 +1,8 @@
 package com.av.latyshev.ak.mironov.BattleTanks.drawers
 
-import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
+import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
 import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
 import com.av.latyshev.ak.mironov.BattleTanks.models.Element

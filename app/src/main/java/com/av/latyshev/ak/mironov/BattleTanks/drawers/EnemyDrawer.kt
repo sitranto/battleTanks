@@ -1,7 +1,7 @@
 package com.av.latyshev.ak.mironov.BattleTanks.drawers
 
 import android.widget.FrameLayout
-import com.av.latyshev.ak.mironov.BattleTanks.CELL_SIZE
+import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
 import com.av.latyshev.ak.mironov.BattleTanks.GameCore
 import com.av.latyshev.ak.mironov.BattleTanks.sounds.MainSoundPlayer
 import com.av.latyshev.ak.mironov.BattleTanks.enums.CELLS_TANKS_SIZE
@@ -115,7 +115,16 @@ class EnemyDrawer(
         moveEnemyTanks()
     }
 
+    fun isAllTankDestroyed(): Boolean {
+        return enemyAmount == MAX_ENEMY_AMOUNT && tanks.toList().isEmpty()
+    }
+
+    fun getPlayerScore() = enemyAmount * 100
+
     fun removeTank(tankIndex: Int) {
         tanks.removeAt(tankIndex)
+        if (isAllTankDestroyed()) {
+            gameCore.playerWon(getPlayerScore())
+        }
     }
 }

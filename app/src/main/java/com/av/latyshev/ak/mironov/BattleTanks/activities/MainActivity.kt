@@ -1,5 +1,7 @@
-package com.av.latyshev.ak.mironov.BattleTanks
+package com.av.latyshev.ak.mironov.BattleTanks.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityMainBinding
@@ -15,6 +17,9 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
+import com.av.latyshev.ak.mironov.BattleTanks.GameCore
+import com.av.latyshev.ak.mironov.BattleTanks.LevelStorage
+import com.av.latyshev.ak.mironov.BattleTanks.R
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
 import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
@@ -236,6 +241,13 @@ class MainActivity : AppCompatActivity() {
         if (enemyDrawer.tanks.isEmpty()) {
             soundManager.tankStop()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && resultCode == SCORE_REQUEST_CODE) {
+            recreate()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun switchEditMode() {
