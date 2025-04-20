@@ -1,17 +1,17 @@
-package com.av.latyshev.ak.mironov.BattleTanks.models
+package com.av.latyshev.ak.mironov.battletanks.models
 
 import android.view.View
 import android.widget.FrameLayout
-import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.activities.binding
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
-import com.av.latyshev.ak.mironov.BattleTanks.utils.checkIfChanceBiggerThanRandom
-import com.av.latyshev.ak.mironov.BattleTanks.utils.checkViewCanMoveThroughBorder
-import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
-import com.av.latyshev.ak.mironov.BattleTanks.utils.getViewCoordinate
-import com.av.latyshev.ak.mironov.BattleTanks.utils.runOnUiThread
+import com.av.latyshev.ak.mironov.battletanks.activities.CELL_SIZE
+import com.av.latyshev.ak.mironov.battletanks.activities.binding
+import com.av.latyshev.ak.mironov.battletanks.drawers.EnemyDrawer
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction
+import com.av.latyshev.ak.mironov.battletanks.enums.Material
+import com.av.latyshev.ak.mironov.battletanks.utils.checkIfChanceBiggerThanRandom
+import com.av.latyshev.ak.mironov.battletanks.utils.checkViewCanMoveThroughBorder
+import com.av.latyshev.ak.mironov.battletanks.utils.getElementByCoordinates
+import com.av.latyshev.ak.mironov.battletanks.utils.getViewCoordinate
+import com.av.latyshev.ak.mironov.battletanks.utils.runOnUiThread
 import kotlin.random.Random
 
 class Tank(

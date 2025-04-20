@@ -1,12 +1,12 @@
-package com.av.latyshev.ak.mironov.BattleTanks.activities
+package com.av.latyshev.ak.mironov.battletanks.activities
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityScoreBinding
-import com.av.latyshev.ak.mironov.BattleTanks.sounds.ScoreSoundPlayer
+import com.av.latyshev.ak.mironov.battletanks.databinding.ActivityScoreBinding
+import com.av.latyshev.ak.mironov.battletanks.sounds.ScoreSoundPlayer
 
 const val SCORE_REQUEST_CODE = 100
 

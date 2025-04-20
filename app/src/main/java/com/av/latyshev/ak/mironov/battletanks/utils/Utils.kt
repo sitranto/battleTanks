@@ -1,14 +1,14 @@
-package com.av.latyshev.ak.mironov.BattleTanks.utils
+package com.av.latyshev.ak.mironov.battletanks.utils
 
 import android.app.Activity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.activities.binding
-import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
-import com.av.latyshev.ak.mironov.BattleTanks.models.Element
-import com.av.latyshev.ak.mironov.BattleTanks.models.Tank
+import com.av.latyshev.ak.mironov.battletanks.activities.CELL_SIZE
+import com.av.latyshev.ak.mironov.battletanks.activities.binding
+import com.av.latyshev.ak.mironov.battletanks.models.Coordinate
+import com.av.latyshev.ak.mironov.battletanks.models.Element
+import com.av.latyshev.ak.mironov.battletanks.models.Tank
 import kotlin.random.Random
 
 const val TOTAL_PERCENT = 100

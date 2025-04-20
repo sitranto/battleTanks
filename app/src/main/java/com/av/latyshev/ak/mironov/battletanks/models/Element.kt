@@ -1,7 +1,7 @@
-package com.av.latyshev.ak.mironov.BattleTanks.models
+package com.av.latyshev.ak.mironov.battletanks.models
 
 import android.view.View
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
+import com.av.latyshev.ak.mironov.battletanks.enums.Material
 
 data class Element(
     val viewId: Int = View.generateViewId(),

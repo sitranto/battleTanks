@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.av.latyshev.ak.mironov.BattleTanks"
+    namespace = "com.av.latyshev.ak.mironov.battletanks"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.av.latyshev.ak.mironov.BattleTanks"
+        applicationId = "com.av.latyshev.ak.mironov.battletanks"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

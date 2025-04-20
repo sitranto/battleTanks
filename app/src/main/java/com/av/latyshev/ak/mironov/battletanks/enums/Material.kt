@@ -1,6 +1,6 @@
-package com.av.latyshev.ak.mironov.BattleTanks.enums
+package com.av.latyshev.ak.mironov.battletanks.enums
 
-import com.av.latyshev.ak.mironov.BattleTanks.R
+import com.av.latyshev.ak.mironov.battletanks.R
 
 const val CELLS_SIMPLE_ELEMENT = 1
 const val CELLS_EAGLE_WIDTH = 4

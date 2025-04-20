@@ -1,13 +1,13 @@
-package com.av.latyshev.ak.mironov.BattleTanks.drawers
+package com.av.latyshev.ak.mironov.battletanks.drawers
 
 import android.view.View
 import android.widget.FrameLayout
-import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
-import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
-import com.av.latyshev.ak.mironov.BattleTanks.models.Element
-import com.av.latyshev.ak.mironov.BattleTanks.utils.drawElement
-import com.av.latyshev.ak.mironov.BattleTanks.utils.getElementByCoordinates
+import com.av.latyshev.ak.mironov.battletanks.activities.CELL_SIZE
+import com.av.latyshev.ak.mironov.battletanks.enums.Material
+import com.av.latyshev.ak.mironov.battletanks.models.Coordinate
+import com.av.latyshev.ak.mironov.battletanks.models.Element
+import com.av.latyshev.ak.mironov.battletanks.utils.drawElement
+import com.av.latyshev.ak.mironov.battletanks.utils.getElementByCoordinates
 
 class ElementsDrawer(val container: FrameLayout) {
     var currentMaterial = Material.EMPTY

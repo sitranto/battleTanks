@@ -1,10 +1,10 @@
-package com.av.latyshev.ak.mironov.BattleTanks.activities
+package com.av.latyshev.ak.mironov.battletanks.activities
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.av.latyshev.ak.mironov.BattleTanks.databinding.ActivityMainBinding
+import com.av.latyshev.ak.mironov.battletanks.databinding.ActivityMainBinding
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_DPAD_UP
 import android.view.KeyEvent.KEYCODE_DPAD_DOWN
@@ -17,23 +17,23 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.content.ContextCompat
-import com.av.latyshev.ak.mironov.BattleTanks.GameCore
-import com.av.latyshev.ak.mironov.BattleTanks.LevelStorage
-import com.av.latyshev.ak.mironov.BattleTanks.R
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.BulletDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.ElementsDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.EnemyDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.drawers.GridDrawer
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.DOWN
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.LEFT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.RIGHT
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction.UP
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
-import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
-import com.av.latyshev.ak.mironov.BattleTanks.models.Element
-import com.av.latyshev.ak.mironov.BattleTanks.models.Tank
-import com.av.latyshev.ak.mironov.BattleTanks.sounds.MainSoundPlayer
+import com.av.latyshev.ak.mironov.battletanks.GameCore
+import com.av.latyshev.ak.mironov.battletanks.LevelStorage
+import com.av.latyshev.ak.mironov.battletanks.R
+import com.av.latyshev.ak.mironov.battletanks.drawers.BulletDrawer
+import com.av.latyshev.ak.mironov.battletanks.drawers.ElementsDrawer
+import com.av.latyshev.ak.mironov.battletanks.drawers.EnemyDrawer
+import com.av.latyshev.ak.mironov.battletanks.drawers.GridDrawer
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction.DOWN
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction.LEFT
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction.RIGHT
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction.UP
+import com.av.latyshev.ak.mironov.battletanks.enums.Material
+import com.av.latyshev.ak.mironov.battletanks.models.Coordinate
+import com.av.latyshev.ak.mironov.battletanks.models.Element
+import com.av.latyshev.ak.mironov.battletanks.models.Tank
+import com.av.latyshev.ak.mironov.battletanks.sounds.MainSoundPlayer
 
 const val CELL_SIZE = 50
 lateinit var binding: ActivityMainBinding

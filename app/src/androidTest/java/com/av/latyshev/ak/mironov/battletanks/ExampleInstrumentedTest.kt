@@ -1,4 +1,4 @@
-package com.av.latyshev.ak.mironov.BattleTanks
+package com.av.latyshev.ak.mironov.battletanks
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,7 +1,7 @@
-package com.av.latyshev.ak.mironov.BattleTanks.models
+package com.av.latyshev.ak.mironov.battletanks.models
 
 import android.view.View
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction
 
 class Bullet(
     val view: View,

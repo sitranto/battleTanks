@@ -1,17 +1,17 @@
-package com.av.latyshev.ak.mironov.BattleTanks.drawers
+package com.av.latyshev.ak.mironov.battletanks.drawers
 
 import android.widget.FrameLayout
-import com.av.latyshev.ak.mironov.BattleTanks.activities.CELL_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.GameCore
-import com.av.latyshev.ak.mironov.BattleTanks.sounds.MainSoundPlayer
-import com.av.latyshev.ak.mironov.BattleTanks.enums.CELLS_TANKS_SIZE
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Direction
-import com.av.latyshev.ak.mironov.BattleTanks.enums.Material
-import com.av.latyshev.ak.mironov.BattleTanks.models.Coordinate
-import com.av.latyshev.ak.mironov.BattleTanks.models.Element
-import com.av.latyshev.ak.mironov.BattleTanks.models.Tank
-import com.av.latyshev.ak.mironov.BattleTanks.utils.checkIfChanceBiggerThanRandom
-import com.av.latyshev.ak.mironov.BattleTanks.utils.drawElement
+import com.av.latyshev.ak.mironov.battletanks.activities.CELL_SIZE
+import com.av.latyshev.ak.mironov.battletanks.GameCore
+import com.av.latyshev.ak.mironov.battletanks.sounds.MainSoundPlayer
+import com.av.latyshev.ak.mironov.battletanks.enums.CELLS_TANKS_SIZE
+import com.av.latyshev.ak.mironov.battletanks.enums.Direction
+import com.av.latyshev.ak.mironov.battletanks.enums.Material
+import com.av.latyshev.ak.mironov.battletanks.models.Coordinate
+import com.av.latyshev.ak.mironov.battletanks.models.Element
+import com.av.latyshev.ak.mironov.battletanks.models.Tank
+import com.av.latyshev.ak.mironov.battletanks.utils.checkIfChanceBiggerThanRandom
+import com.av.latyshev.ak.mironov.battletanks.utils.drawElement
 
 private const val MAX_ENEMY_AMOUNT = 20
 

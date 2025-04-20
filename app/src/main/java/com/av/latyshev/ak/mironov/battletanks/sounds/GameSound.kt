@@ -1,4 +1,4 @@
-package com.av.latyshev.ak.mironov.BattleTanks.sounds
+package com.av.latyshev.ak.mironov.battletanks.sounds
 
 import android.media.SoundPool
 

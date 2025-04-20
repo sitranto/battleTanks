@@ -1,8 +1,8 @@
-package com.av.latyshev.ak.mironov.BattleTanks
+package com.av.latyshev.ak.mironov.battletanks
 
 import android.app.Activity
 import android.content.Context
-import com.av.latyshev.ak.mironov.BattleTanks.models.Element
+import com.av.latyshev.ak.mironov.battletanks.models.Element
 import com.google.gson.Gson
 
 const val KEY_LEVEL = "key_level"

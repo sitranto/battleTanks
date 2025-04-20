@@ -1,8 +1,7 @@
-package com.av.latyshev.ak.mironov.BattleTanks.sounds
+package com.av.latyshev.ak.mironov.battletanks.sounds
 
 import android.content.Context
-import android.content.pm.PackageManager
-import com.av.latyshev.ak.mironov.BattleTanks.R
+import com.av.latyshev.ak.mironov.battletanks.R
 
 class ScoreSoundPlayer(
     private val context: Context,

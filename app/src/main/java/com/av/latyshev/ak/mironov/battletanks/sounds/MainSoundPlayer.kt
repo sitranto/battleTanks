@@ -1,7 +1,7 @@
-package com.av.latyshev.ak.mironov.BattleTanks.sounds
+package com.av.latyshev.ak.mironov.battletanks.sounds
 
 import android.content.Context
-import com.av.latyshev.ak.mironov.BattleTanks.R
+import com.av.latyshev.ak.mironov.battletanks.R
 
 private const val INTRO_MUSIC_INDEX = 0
 private const val BULLET_SHOT_INDEX = 1

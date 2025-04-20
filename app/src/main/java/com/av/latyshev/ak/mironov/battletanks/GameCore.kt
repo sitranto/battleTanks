@@ -1,11 +1,11 @@
-package com.av.latyshev.ak.mironov.BattleTanks
+package com.av.latyshev.ak.mironov.battletanks
 
 import android.app.Activity
 import android.view.View
 import android.view.animation.AnimationUtils
-import com.av.latyshev.ak.mironov.BattleTanks.activities.SCORE_REQUEST_CODE
-import com.av.latyshev.ak.mironov.BattleTanks.activities.ScoreActivity
-import com.av.latyshev.ak.mironov.BattleTanks.activities.binding
+import com.av.latyshev.ak.mironov.battletanks.activities.SCORE_REQUEST_CODE
+import com.av.latyshev.ak.mironov.battletanks.activities.ScoreActivity
+import com.av.latyshev.ak.mironov.battletanks.activities.binding
 
 class GameCore(private val activity: Activity) {
     @Volatile
