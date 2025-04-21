@@ -13,6 +13,7 @@ import android.view.KeyEvent.KEYCODE_DPAD_RIGHT
 import android.view.KeyEvent.KEYCODE_SPACE
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -34,15 +35,18 @@ import com.av.latyshev.ak.mironov.battletanks.models.Coordinate
 import com.av.latyshev.ak.mironov.battletanks.models.Element
 import com.av.latyshev.ak.mironov.battletanks.models.Tank
 import com.av.latyshev.ak.mironov.battletanks.sounds.MainSoundPlayer
+import com.av.latyshev.ak.mironov.battletanks.utils.ProgressIndicator
 
 const val CELL_SIZE = 50
+
 lateinit var binding: ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProgressIndicator {
     private var editMode = false
     private lateinit var item: MenuItem
     private lateinit var playerTank: Tank
     private lateinit var eagle: Element
+    private var gameStarted = false
 
     private val bulletDrawer by lazy {
         BulletDrawer(
@@ -95,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val soundManager by lazy {
-        MainSoundPlayer(this)
+        MainSoundPlayer(this, this)
     }
 
     private val gridDrawer by lazy {
@@ -119,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        soundManager.loadSounds()
+        // soundManager.loadSounds()
         supportActionBar?.title = "Menu"
 
         binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }
@@ -180,17 +184,32 @@ class MainActivity : AppCompatActivity() {
                 if(editMode) {
                     return true
                 }
-                gameCore.startOrPauseTheGame()
-                if (gameCore.isPlaying()) {
-                    startTheGame()
-                } else {
-                    pauseTheGame()
+                showIntro()
+                if (soundManager.areSoundsReady()) {
+                    gameCore.startOrPauseTheGame()
+                    if (gameCore.isPlaying()) {
+                        resumeTheGame()
+                    } else {
+                        pauseTheGame()
+                    }
                 }
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun resumeTheGame() {
+        item.icon = ContextCompat.getDrawable(this, R.drawable.ic_pause)
+    }
+
+    private fun showIntro() {
+        if (gameStarted) {
+            return
+        }
+        gameStarted = true
+        soundManager.loadSounds()
     }
 
     private fun pauseTheGame() {
@@ -202,12 +221,6 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         pauseTheGame()
         soundManager.pauseSounds()
-    }
-
-    private fun startTheGame() {
-        item.icon = ContextCompat.getDrawable(this, R.drawable.ic_pause)
-        enemyDrawer.startEnemyCreation()
-        soundManager.playIntroMusic()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -225,6 +238,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (!gameCore.isPlaying()) {
+            return super.onKeyUp(keyCode, event)
+        }
         when (keyCode) {
             KEYCODE_DPAD_UP, KEYCODE_DPAD_LEFT,
             KEYCODE_DPAD_DOWN, KEYCODE_DPAD_RIGHT -> onButtonReleased()
@@ -267,5 +283,21 @@ class MainActivity : AppCompatActivity() {
     private fun hideSettings() {
         gridDrawer.removeGrid()
         binding.materialsContainer.visibility = INVISIBLE
+    }
+
+    override fun showProgress() {
+        binding.container.visibility = INVISIBLE
+        binding.totalContainer.setBackgroundResource(R.color.gray)
+        binding.initTitle.visibility = VISIBLE
+    }
+
+    override fun dismissProgress() {
+        Thread.sleep(3000L)
+        binding.container.visibility = VISIBLE
+        binding.totalContainer.setBackgroundResource(R.color.black)
+        binding.initTitle.visibility = GONE
+        enemyDrawer.startEnemyCreation()
+        soundManager.playIntroMusic()
+        resumeTheGame()
     }
 }

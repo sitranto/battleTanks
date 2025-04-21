@@ -144,6 +144,11 @@ class BulletDrawer(
                 stopBullet(bullet)
                 return
             }
+            if (bullet.tank.element.material == Material.ENEMY_TANK
+                && element.material == Material.ENEMY_TANK) {
+                stopBullet(bullet)
+                return
+            }
             if (element.material.tankCanGoThrough) {
                 return
             }
@@ -155,7 +160,7 @@ class BulletDrawer(
                 stopBullet(bullet)
                 removeView(element)
                 removeElement(element)
-                //stopGameIfNecessary(element)
+                stopGameIfNecessary(element)
                 removeTank(element)
             } else {
                 stopBullet(bullet)
@@ -167,11 +172,11 @@ class BulletDrawer(
         elements.remove(element)
     }
 
-   /* private fun stopGameIfNecessary(element: Element) {
-        if (element.material == Material.PLAYER_TANK || element.material == Material.EAGLE) {
-            gameCore.destroyPlayerOrBase(enemyDrawer.getPlayerScore())
-        }
-    }*/
+   private fun stopGameIfNecessary(element: Element) {
+       if (element.material == Material.PLAYER_TANK || element.material == Material.EAGLE) {
+           gameCore.destroyPlayerOrBase(enemyDrawer.getPlayerScore())
+       }
+   }
 
     private fun removeTank(element: Element) {
         val tanksElements = enemyDrawer.tanks.map { it.element }

@@ -11,8 +11,7 @@ import com.av.latyshev.ak.mironov.battletanks.sounds.ScoreSoundPlayer
 const val SCORE_REQUEST_CODE = 100
 
 class ScoreActivity : AppCompatActivity() {
-
-    companion object{
+    companion object {
         const val EXTRA_SCORE = "extra_score"
 
         fun createIntent(context: Context, score: Int): Intent {
@@ -24,13 +23,13 @@ class ScoreActivity : AppCompatActivity() {
     }
 
     private val scoreSoundPlayer by lazy {
-        ScoreSoundPlayer(this, soundReadyListener =  {
+        ScoreSoundPlayer(this, soundReadyListener = {
             startScoreCounting()
         })
     }
 
     private fun startScoreCounting() {
-        Thread(Runnable {
+        Thread({
             var currentScore = 0
             while (currentScore <= score) {
                 runOnUiThread {
@@ -44,13 +43,12 @@ class ScoreActivity : AppCompatActivity() {
     }
 
     var score = 0
-    lateinit var binding: ActivityScoreBinding
+    lateinit var  binding: ActivityScoreBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // setContentView(R.layout.activity_score)
         score = intent.getIntExtra(EXTRA_SCORE, 0)
         scoreSoundPlayer.playScoreSound()
     }
